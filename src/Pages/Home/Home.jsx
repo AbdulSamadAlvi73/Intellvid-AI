@@ -1,0 +1,42 @@
+import React, { useEffect, useRef } from "react";
+import Hero from "./Component/Hero";
+import Content from "./Component/Content";
+import Team from "./Component/Team";
+import MobileApp from "../../Component/MobileApp";
+import FAQs from "../../Component/FAQs";
+import PricingPlan from "../../Component/PricingPlan";
+import Header from "../../Component/Header";
+import MobileHeader from "../../Component/MobileHeader";
+import ScrollToTopButton from "../../Component/ScrollToTopButton";
+import Footer from "../../Component/Footer";
+
+const Home = ({ darkMode, toggleMode }) => {
+  const targetSection = useRef(null);
+
+  useEffect(() => {
+    // Function to scroll to the target section
+    const handleScrollToSection = () => {
+      targetSection.current?.scrollIntoView({
+        behavior: "smooth", // Smooth scroll effect
+        block: "start", // Scroll to the top of the target
+      });
+    };
+    handleScrollToSection();
+  }, []);
+  return (
+    <>
+      <Header darkMode={darkMode} toggleMode={toggleMode} />
+      <MobileHeader darkMode={darkMode} toggleMode={toggleMode} />
+      <Hero targetSection={targetSection} darkMode={darkMode} />
+      <Content darkMode={darkMode} />
+      <Team darkMode={darkMode} />
+      <PricingPlan darkMode={darkMode} />
+      <MobileApp darkMode={darkMode} />
+      <FAQs darkMode={darkMode} />
+      <ScrollToTopButton darkMode={darkMode} />
+      <Footer darkMode={darkMode} />
+    </>
+  );
+};
+
+export default Home;
