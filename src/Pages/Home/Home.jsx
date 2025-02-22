@@ -9,6 +9,10 @@ import Header from "../../Component/Header";
 import MobileHeader from "../../Component/MobileHeader";
 import ScrollToTopButton from "../../Component/ScrollToTopButton";
 import Footer from "../../Component/Footer";
+import SocialMediaBenefits from "./Component/SocialMediaBenefits";
+import BusinessGrowth from "./Component/BusinessGrowth";
+import StudioSignup from "../../Component/StudioSignup";
+import StudioLogin from "../../Component/StudioLogin";
 
 const Home = ({ darkMode, toggleMode }) => {
   const targetSection = useRef(null);
@@ -25,9 +29,13 @@ const Home = ({ darkMode, toggleMode }) => {
   }, []);
   return (
     <>
+      <StudioSignup darkMode={darkMode} />
+      <StudioLogin darkMode={darkMode} />
       <Header darkMode={darkMode} toggleMode={toggleMode} />
       <MobileHeader darkMode={darkMode} toggleMode={toggleMode} />
       <Hero targetSection={targetSection} darkMode={darkMode} />
+      <SocialMediaBenefits darkMode={darkMode} />
+      <BusinessGrowth darkMode={darkMode} />
       <Content darkMode={darkMode} />
       <Team darkMode={darkMode} />
       <PricingPlan darkMode={darkMode} />

@@ -6,6 +6,8 @@ import MobileHeader from "../../Component/MobileHeader";
 import Header from "../../Component/Header";
 import Footer from "../../Component/Footer";
 import ScrollToTopButton from "../../Component/ScrollToTopButton";
+import StudioSignup from "../../Component/StudioSignup";
+import StudioLogin from "../../Component/StudioLogin";
 
 const Contact = ({ darkMode, toggleMode }) => {
   const targetSection = useRef(null);
@@ -22,6 +24,8 @@ const Contact = ({ darkMode, toggleMode }) => {
   }, []);
   return (
     <>
+      <StudioSignup darkMode={darkMode} />
+      <StudioLogin darkMode={darkMode} />
       <Header darkMode={darkMode} toggleMode={toggleMode} />
       <MobileHeader darkMode={darkMode} toggleMode={toggleMode} />
       <ContactHero targetSection={targetSection} darkMode={darkMode} />

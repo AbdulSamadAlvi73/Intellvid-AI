@@ -10,7 +10,7 @@ const AboutHero = ({ darkMode, targetSection }) => {
     >
       <div className="md:max-w-[75vw] relative px-5 font-roboto xs:pt-24 md:pt-32 mx-auto w-full flex flex-col items-center justify-center xs:pb-0 md:pb-32">
         <h1 className="lg:text-[5vw] md:text-[6vw] xs:text-[7vw] leading-[5.5vw] my-3 font-semibold tracking-wide">
-          About
+          Help
         </h1>
         <div>
           <img

@@ -24,12 +24,12 @@ const DashboardLeft = () => {
   let handleToggoleSidbar = () => {
     setSideBarOpen(!sideBarOpen);
   };
-  console.log(isPluginOpen);
+  console.log(sideBarOpen);
 
   return (
     <div
       className={`lg:w-[16vw] z-40 lg:pt-[3vw] h-full sm:pt-[9vw] xs:pt-[11vw] items-center md:w-[6vw] sm:w-[8vw] xs:w-[16vw] ${
-        sideBarOpen ? "xs:translate-x-0" : "xs:-translate-x-full"
+        sideBarOpen ? "translate-x-0" : "-translate-x-full"
       } md:translate-none h-full fixed xs:bg-[#111111] lg:bg-[#282828] text-white`}
     >
       <div className="lg:w-full flex flex-col py-5 it justify-between h-full relative">

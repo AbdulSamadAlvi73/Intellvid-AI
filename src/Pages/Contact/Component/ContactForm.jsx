@@ -3,7 +3,7 @@ import React from "react";
 const ContactForm = ({ darkMode }) => {
   return (
     <div
-      className={`bg-colored ${
+      className={` ${
         darkMode ? "bg-slate-950 text-white" : "bg-white text-black"
       }`}
     >

@@ -332,10 +332,16 @@ const ImageScripter = () => {
                 </div>
               </div>
               <div className="my-5 pb-5 flex items-center gap-5">
-                <button className="py-2 xs:px-4 md:px-8 rounded-lg flex items-center gap-1.5 lg:text-[1.2vw] xs:text-[3.4vw] border border-gray-300">
+                <button
+                  onClick={() => setIsGendBrandOpen(false)}
+                  className="py-2 xs:px-4 md:px-8 rounded-lg flex items-center gap-1.5 lg:text-[1.2vw] xs:text-[3.4vw] border border-gray-300"
+                >
                   Cancel
                 </button>
-                <button className="py-2 xs:px-4 md:px-8 rounded-lg flex items-center gap-1.5 lg:text-[1.2vw] xs:text-[3.4vw] bg-theme-purple">
+                <button
+                  onClick={() => setIsGendBrandOpen(false)}
+                  className="py-2 xs:px-4 md:px-8 rounded-lg flex items-center gap-1.5 lg:text-[1.2vw] xs:text-[3.4vw] bg-theme-purple"
+                >
                   Apply
                 </button>
               </div>

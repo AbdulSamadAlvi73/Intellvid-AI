@@ -99,8 +99,8 @@ const PricingPlan = ({ darkMode }) => {
             <div
               className={`w-1/2 h-[85%] ${
                 !isYearly
-                  ? "md:translate-x-1.5 xs:translate-x-0.5"
-                  : "md:translate-x-[95%] xs:translate-x-[98%]"
+                  ? "md:translate-x-1 xs:translate-x-0.5"
+                  : "md:translate-x-[98%] xs:translate-x-[98%]"
               } rounded-full bg-theme-purple transition-all duration-500 absolute`}
             ></div>
             <h3

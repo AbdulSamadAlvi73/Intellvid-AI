@@ -5,8 +5,8 @@ const Login = () => {
   let navigate = useNavigate();
 
   return (
-    <div className="w-full relative xs:flex items-center justify-center lg:grid text-white grid-cols-2 place-items-center bg-[#302f2f] h-screen">
-      <div className="w-full h-screen">
+    <div className="w-full relative xs:flex items-center justify-center lg:grid text-white grid-cols-2 place-items-center bg-[#302f2f] min-h-screen">
+      <div className="w-full h-full">
         <img
           className="h-full w-full object-cover"
           src="/imgs/dashboard/2150688379.png"

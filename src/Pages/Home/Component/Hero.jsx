@@ -10,14 +10,18 @@ const Hero = ({ darkMode, targetSection }) => {
         darkMode ? "bg-slate-950 text-white" : "bg-white text-black"
       }`}
     >
-      <div className="md:max-w-[75vw] px-5 font-roboto pt-32 lg:pb-[8vw] xs:pb-[5vw] mx-auto w-full flex flex-col items-center justify-center">
+      <div className="md:max-w-[75vw] px-5 font-roboto pt-[10vw] lg:pb-[8vw] xs:pb-[5vw] mx-auto w-full flex flex-col items-center justify-center">
         <ScrollToTopButton />
-        <div className="flex flex-col relative items-center gap-2.5">
-          <div className="md:py-3 xs:py-1.5 lg:px-[4vw] md:px-[4.5vw] sm:px-[5vw] xs:px-[5.5vw] lg:text-[1vw] md:text-[2vw] xs:text-[2.8vw] mx-auto rounded-full bg-theme-purple/50">
-            <h2>👋 Artificial Intelligence Makes Content Fast & Easy</h2>
+        <div className="flex flex-col w-full relative items-center gap-2.5">
+          <div className="flex w-full lg:h-[2vw] justify-center md:h-[3vw] xs:h-[3.5vw] items-center gap-[1.5vw]">
+            <div className="gardientLine"></div>
+            <div className="md:py-[0.8] xs:py-1.5 lg:text-[1vw] md:text-[2vw] xs:text-[2.8vw]">
+              <h2>Create Artificial Intelligent Videos in Seconds </h2>
+            </div>
+            <div className="gardientLine"></div>
           </div>
           <h1 className="lg:text-[5.5vw]  md:text-[6vw] xs:text-[6.5vw] lg:leading-[5.5vw] md:leading-[6.5vw] xs:leading-[5.5vw] mt-3 font-semibold tracking-wide">
-            10x faster way to write
+            Your vision, brought
           </h1>
           <div>
             <img
@@ -37,12 +41,12 @@ const Hero = ({ darkMode, targetSection }) => {
             />
           </div>
           <h2 className="lg:text-[5.5vw] md:text-[6vw] xs:text-[6.5vw] leading-[5.5vw] font-semibold text-center tracking-wide">
-            Easy <span className="text-theme-purple">Stories</span>
+            to <span className="text-theme-purple">life.</span>
           </h2>
           <p className="md:text-[1.1vw] xs:text-[2.5vw] tracking-wide text-center xs:my-4 md:my-7 text-gray-400">
-            Write unique & plagiarism-free content for blogs, articles, ads,
-            products, websites & <br /> social media unlock the power of
-            generative AI across every team.
+            AI-Powered Video Generation – Create stunning, AI-generated videos
+            for marketing, social media, and websites. <br /> Unlock seamless
+            video production for everything with our cutting-edge generative AI.
           </p>
           <div className="flex xs:flex-col sm:flex-row items-center xs:gap-2.5 md:gap-4">
             <Link
@@ -52,12 +56,7 @@ const Hero = ({ darkMode, targetSection }) => {
                   : "bg-black border-black"
               } border text-white`}
             >
-              Start Writing Free
-            </Link>
-            <span className="text-gray-400">OR</span>
-            <Link className="lg:py-[1vw] md:py-[1.5vw] sm:py-[1.9vw] xs:py-[2.4vw] flex items-center gap-1 rounded-md tracking-wide lg:text-[1.1vw] md:text-[1.6vw] xs:text-[2.5vw] px-6  border-theme-purple border text-theme-purple">
-              <img src="/imgs/Hero/gogole-logo.png.png" alt="" />
-              Sign Up With Google
+              Start Creating Free
             </Link>
           </div>
           <p className="md:text-[1.1vw] xs:text-[2.5vw] tracking-wide mt-3 text-gray-400">
@@ -65,7 +64,7 @@ const Hero = ({ darkMode, targetSection }) => {
           </p>
         </div>
         <div className="w-full mt-20 relative flex items-center justify-center">
-          <div className="videoGradient cursor-pointer w-[9vw] absolute rounded-full h-[9vw] flex items-center justify-center">
+          {/* <div className="videoGradient cursor-pointer w-[9vw] absolute rounded-full h-[9vw] flex items-center justify-center">
             <svg
               className="w-[4vw] h-[4vw]"
               viewBox="0 0 43 49"
@@ -77,12 +76,16 @@ const Hero = ({ darkMode, targetSection }) => {
                 fill="white"
               />
             </svg>
-          </div>
-          <img
-            className="w-full rounded-xl object-cover"
-            src="/imgs/Hero/image.png"
-            alt=""
-          />
+          </div> */}
+          <video
+            loop
+            muted
+            autoPlay
+            className="w-full rounded-xl"
+            poster="/imgs/Hero/image.png"
+          >
+            <source src="/Videos/Home/Invideo AI - Bring your Ideas to life.mp4" />
+          </video>
         </div>
       </div>
     </div>

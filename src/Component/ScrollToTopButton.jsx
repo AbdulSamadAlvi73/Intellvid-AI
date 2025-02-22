@@ -36,9 +36,9 @@ const ScrollToTopButton = () => {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-5 right-5 bg-theme-purple text-white xs:p-1.5 md:p-4 rounded-full shadow-lg"
+          className="fixed bottom-5 right-5 bg-theme-purple text-white xs:p-1.5 md:p-[0.5vw] rounded-full shadow-lg"
         >
-          <span className="md:text-4xl xs:text-xl rotate-90">
+          <span className="md:text-[1.5vw] xs:text-xl rotate-90">
             <RiArrowDropDownLine />
           </span>
         </button>
