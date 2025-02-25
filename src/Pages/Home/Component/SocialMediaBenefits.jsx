@@ -36,7 +36,7 @@ const SocialMediaBenefits = ({ darkMode }) => {
               </p>
               <ul className="list-disc list-inside  gap-[1.3vw]">
                 <img
-                  className="w-[20vw] float-left h-[20vw] object-cover mr-4"
+                  className="lg:w-[20vw] xs:w-full lg:float-right lg:h-[20vw] object-cover mr-4"
                   src="/imgs/AnimationMaker/Animator_content_creator_a3c7c1a44c.webp"
                   alt=""
                 />

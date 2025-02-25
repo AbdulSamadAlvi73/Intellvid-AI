@@ -57,12 +57,12 @@ const FAQs = ({ darkMode }) => {
 
   return (
     <div
-      className={` bg-colored ${
+      className={`bg-colored ${
         darkMode ? "bg-slate-950 text-white" : "bg-white text-black"
       }}`}
     >
       <div
-        className={`max-w-[1450px] ${
+        className={`md:max-w-[75vw] ${
           darkMode ? "text-white" : "text-black"
         } font-roboto tracking-wide py-32 px-5  mx-auto`}
       >

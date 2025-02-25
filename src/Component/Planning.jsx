@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Planning = ({ darkMode, item, padding }) => {
   return (
     <div
-      className={`lg:w-full ${
+      className={`lg:w-full sm:w-[40vw] ${
         item.label ? "border overflow-hidden border-theme-purple" : ""
       }  rounded-xl ${
         darkMode ? "bg-slate-800 text-white" : "bg-[#efefef] text-black"

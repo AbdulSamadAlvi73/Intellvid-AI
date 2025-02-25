@@ -96,12 +96,12 @@ const Benefits = ({ darkMode }) => {
               </span>
             </Link>
           </div>
-          <div className="grid md:grid-cols-2 place-items-start h-full xs:gap-5 md:gap-x-[2vw] md:gap-y-[2vw]">
+          <div className="grid xs:grid-cols-2 place-items-start h-full xs:gap-5 md:gap-x-[2vw] md:gap-y-[2vw]">
             {benefits.map((items, idx) => {
               return (
                 <div
                   key={idx}
-                  className={`p-[1.3vw] flex flex-col h-full gap-4 ${
+                  className={`p-[1.3vw] flex flex-col h-full lg:gap-[1.2vw] xs:gap-[2vw] ${
                     darkMode ? "bg-slate-800" : "bg-white"
                   } rounded-lg ${idx % 2 !== 0 ? "" : "md:mb-9 md:-mt-9"}`}
                   style={{

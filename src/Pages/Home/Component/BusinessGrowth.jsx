@@ -33,7 +33,7 @@ const BusinessGrowth = ({ darkMode }) => {
               </p>
               <ul className="list-disc list-inside  gap-[1.3vw]">
                 <img
-                  className="w-[20vw] float-right h-[20vw] object-cover mr-4"
+                  className="lg:w-[20vw] xs:w-full lg:float-right lg:h-[20vw] object-cover mr-4"
                   src="/imgs/AnimationMaker/Business_Animation_02_9f539bd6e0.webp"
                   alt=""
                 />

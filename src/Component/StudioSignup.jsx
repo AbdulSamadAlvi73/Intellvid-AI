@@ -41,26 +41,26 @@ const StudioSignup = ({ darkMode }) => {
             </Link>
           </div>
           <div className="py-[1.3vw] w-full flex items-center relative">
-            <div className="w-full h-0.5 bg-gray-600 w-ful"></div>
+            <div className="w-full h-0.5 bg-gray-400 w-ful"></div>
             <div className="lg:p-[1.3vw] md:p-[1.7vw] xs:p-[2.5vw] lg:text-[1.5vw] md:text-[1.9vw] xs:text-[2.6vw]">
               OR
             </div>
-            <div className="w-full h-0.5 bg-gray-600 w-ful"></div>
+            <div className="w-full h-0.5 bg-gray-400 w-ful"></div>
           </div>
           <form
             action=""
-            className="flex flex-col pb-[1.3vw] border-b border-gray-500 lg:gap-[1.5vw] md:text-[1.8vw] xs:text-[2.5vw]"
+            className="flex flex-col pb-[1.3vw] border-b border-gray-500  lg:gap-[1.5vw] md:gap-[2vw] xs:gap-[2.5vw] md:text-[1.8vw] xs:text-[2.5vw]"
             method="post"
           >
             <input
               type="text"
-              className="w-full lg:py-[1vw] lg:text-[1vw] placeholder:text-gray-400 md:text-[2.2vw] sm:text-[3.3vw] xs:text-[3.2vw] xs:py-[2vw] px-2 border-2 border-gray-600 rounded-xl"
+              className="w-full lg:py-[1vw] lg:text-[1vw] placeholder:text-gray-400 md:text-[2.2vw] sm:text-[3.3vw] xs:text-[3.2vw] xs:py-[1.6vw] px-2 xs:border md:border-2 border-gray-400 rounded-xl"
               placeholder="Enter your name"
               id=""
             />
             <input
               type="email"
-              className="w-full lg:py-[1vw] lg:text-[1vw] placeholder:text-gray-400 md:text-[2.2vw] sm:text-[3.3vw] xs:text-[3.2vw] xs:py-[2vw] px-2 border-2 border-gray-600 rounded-xl"
+              className="w-full lg:py-[1vw] lg:text-[1vw] placeholder:text-gray-400 md:text-[2.2vw] sm:text-[3.3vw] xs:text-[3.2vw] xs:py-[1.6vw] px-2 xs:border md:border-2 border-gray-400 rounded-xl"
               placeholder="Enter your email"
               id=""
             />
@@ -68,7 +68,7 @@ const StudioSignup = ({ darkMode }) => {
               <input
                 type="submit"
                 value={"Continue"}
-                className="md:py-4 xs:py-2.5 gap-1 rounded-full bg-blue-500 mr-auto text-white lg:text-[1.1vw] md:text-[1.7vw] sm:text-[2.1vw] xs:text-[2.5vw] tracking-wide xs:px-3 md:px-6"
+                className="lg:py-[0.8vw] md:py-[1.4vw] xs:py-[2vw] gap-1 rounded-full bg-blue-500 mr-auto text-white lg:text-[1.1vw] md:text-[1.7vw] sm:text-[2.1vw] xs:text-[2.5vw] tracking-wide xs:px-3 md:px-6"
               />
             </div>
           </form>

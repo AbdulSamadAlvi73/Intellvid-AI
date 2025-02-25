@@ -22,7 +22,7 @@ const MobileApp = ({ darkMode }) => {
         </h2>
         <div
           id="modileAppPoster"
-          className="md:mt-[4vw] xs:mt-5 w-full rounded-xl grid md:grid-cols-2 sm:gap-5 "
+          className="md:mt-[4vw] xs:mt-5 w-full rounded-xl grid lg:grid-cols-2 sm:gap-5 "
         >
           <div className="md:px-[2.5vw] sm:px-10 xs:px-5 xs:py-5 md:py-10 text-start">
             <h2 className="lg:text-[4.5vw] xs:text-[6.6vw] xs:leading-[7vw] md:text-[5.6vw] md:leading-[6vw] text-white text-start lg:leading-[4.8vw] font-bold tracking-wide">

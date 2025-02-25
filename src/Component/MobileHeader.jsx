@@ -3,11 +3,32 @@ import { IoMoonOutline } from "react-icons/io5";
 import { LuSunMedium } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { RxCross2 } from "react-icons/rx";
+import { BiPlus } from "react-icons/bi";
+import InVideoDropMobile from "./InVideoDropMobile";
+import StudioDropMobile from "./StudioDropMobile";
+
 const MobileHeader = ({ darkMode, toggleMode }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropOpen1, setIsDropOpen1] = useState(false);
+  const [isDropOpen2, setIsDropOpen2] = useState(false);
+
   let toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
+
+  const links = [
+    { name: "Home", to: "/" },
+    { name: "Intellvid AI", to: "#" },
+    { name: "Intellvid Studio", to: "#" },
+    { name: "Help", to: "/help" },
+    { name: "Pricing", to: "/pricing" },
+    { name: "Contact", to: "/contact" },
+  ];
+
+  const handleDropdownOpen = (setState) => {
+    setState((prev) => !prev);
+  };
+  console.log(isDropOpen1);
 
   return (
     <>
@@ -53,7 +74,7 @@ const MobileHeader = ({ darkMode, toggleMode }) => {
             </div>
             <span
               onClick={toggleMode}
-              className="md:text-[1.1vw] xs:text-[3.5vw] cursor-pointer"
+              className="md:text-[2.5vw] xs:text-[3.5vw] cursor-pointer"
             >
               {darkMode ? <LuSunMedium /> : <IoMoonOutline />}
             </span>
@@ -72,41 +93,57 @@ const MobileHeader = ({ darkMode, toggleMode }) => {
         </div>
       </div>
       <div
-        className={` w-full bg-black/80 fixed z-50 ${
-          isMenuOpen ? "min-h-screen" : "min-h-0"
+        className={`min-h-screen bg-black/80 fixed z-50 ${
+          isMenuOpen ? "min-w-[100vw]" : "min-w-0"
         }`}
       >
         <div
-          className={`w-full ${
-            isMenuOpen ? "max-h-full" : "max-h-0"
+          className={`min-h-screen ${
+            isMenuOpen ? "max-w-[50vw]" : "max-w-0"
           } overflow-hidden flex flex-col bg-black`}
         >
           <div className="w-full flex justify-end p-8">
             <span
               onClick={toggleMenu}
-              className="text-white md:text-[1.1vw] xs:text-[4.5vw]"
+              className="text-white lg:text-[1.1vw] md:text-[2.5vw] xs:text-[4.5vw]"
             >
               <RxCross2 />
             </span>
           </div>
-          <ul className="flex flex-col xs:px-10 pb-8 md:px-72 text-white text-[2vw] items-center">
-            {["Home", "About", "Pages", "Pricing", "Contact"].map(
-              (link, idx) => {
-                return (
+          <ul className="flex flex-col w-full xs:px-10 pb-8 md:px-[8vw] text-white text-[2vw] items-center">
+            {links.map((link, idx) => {
+              return (
+                <>
                   <li
                     key={idx}
-                    className="py-4 border-y border-gray-500 w-full text-center"
+                    onClick={() =>
+                      idx === 1
+                        ? handleDropdownOpen(setIsDropOpen1)
+                        : "" || idx === 2
+                        ? handleDropdownOpen(setIsDropOpen2)
+                        : ""
+                    }
+                    id={idx === 1 || idx === 2 ? `openDropdown-${idx}` : ""}
+                    className="py-4 border-b flex justify-between items-center border-gray-500 w-full"
                   >
-                    <Link
-                      onClick={toggleMenu}
-                      to={`/${idx === 0 ? "" : link.toLowerCase()}`}
-                    >
-                      {link}
+                    <Link onClick={toggleMenu} to={link.to}>
+                      {link.name}
                     </Link>
+                    {idx === 1 || idx === 2 ? <BiPlus /> : ""}
                   </li>
-                );
-              }
-            )}
+                  {idx === 1 ? (
+                    <InVideoDropMobile dropdownOpen={isDropOpen1} />
+                  ) : (
+                    ""
+                  )}
+                  {idx === 2 ? (
+                    <StudioDropMobile dropdownOpen={isDropOpen2} />
+                  ) : (
+                    ""
+                  )}
+                </>
+              );
+            })}
           </ul>
         </div>
       </div>

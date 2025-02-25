@@ -7,8 +7,8 @@ const ContactForm = ({ darkMode }) => {
         darkMode ? "bg-slate-950 text-white" : "bg-white text-black"
       }`}
     >
-      <div className="md:max-w-[75vw] relative px-5  font-roboto xs:pt-24 mx-auto w-full grid gap-20 lg:grid-cols-3 place-content-center place-items-center xs:pb-10 md:py-32">
-        <div className="flex gap-5 flex-col w-full">
+      <div className="md:max-w-[75vw] relative px-5  font-roboto xs:pt-24 mx-auto w-full xs:flex flex-col lg:grid gap-20 grid-cols-3 place-content-center place-items-center xs:pb-10 md:py-32">
+        <div className="flex gap-5 flex-col items-center w-full">
           <h3 className="md:text-[2.5vw] md:leading-[3.5vw] xs:text-[4.5vw] xs:leading-[5.5vw] sm:text-[3.5vw] pb-5 font-semibold tracking-wide">
             Have any questions for us?
           </h3>
