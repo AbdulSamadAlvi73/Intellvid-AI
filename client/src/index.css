@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+@theme {
+  --color-theme-purple: #c639db;
+  --font-roboto: "Roboto", serif;
+  --breakpoint-xs: 300px;
+}
+
+* {
+  transition: all 0.2s;
+  scroll-behavior: smooth;
+}
+.bg-colored {
+  background-image: url("/imgs/Hero/hero-bg-1.png.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom 0 10px;
+}
+.videoGradient {
+  background-image: linear-gradient(to bottom, #d05bff, #bd17bd);
+}
+.Unbeliveably::before {
+  position: absolute;
+  content: "";
+  bottom: 0%;
+  left: 0%;
+  background-color: #bf24c9;
+  width: 100%;
+  height: 25px;
+  z-index: -1;
+  border-radius: 6px;
+}
+.gradient-text {
+  background: linear-gradient(to right, #d05bff, #bd17bd); /* Gradient colors */
+  -webkit-background-clip: text; /* Clip background to text */
+  color: transparent; /* Make text color transparent so the gradient shows */
+}
+.mobileApp::before {
+  position: absolute;
+  content: "";
+  bottom: 0%;
+  left: 0%;
+  background-color: #bf24c9;
+  width: 100%;
+  height: 20px;
+  z-index: -1;
+  border-radius: 6px;
+}
+#modileAppPoster {
+  background-image: linear-gradient(to bottom left, #d05bff, #bd17bd, #d05bff);
+}
+
+.footer {
+  background-image: linear-gradient(to top, #d05bff, #bd17bd);
+}
+#button-container::-webkit-scrollbar {
+  display: none;
+}
+#GenBrand::-webkit-scrollbar {
+  display: none;
+}
+.allScrollBaarNone::-webkit-scrollbar {
+  display: none !important;
+}
+.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-theme-purple);
+}
+.hoverintelivid:hover,
+.intelivid {
+  opacity: 1;
+  transform: translateX(2.5rem);
+  transition: opacity 0.3s;
+}
+.rotatingAnim {
+  width: 20%;
+  height: 537%;
+  overflow: hidden;
+  background: linear-gradient(#0cf, #d400d4);
+  animation: animate 3s linear infinite;
+  z-index: -1;
+}
+@keyframes animate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.pricingGardient {
+  background: linear-gradient(to right, #d400d4, #0cf);
+  -webkit-background-clip: text; /* Clip background to text */
+  color: transparent; /* Make text color transparent so the gradient shows */
+}
+
+.gardientLine {
+  height: 100%;
+  width: 0.5%;
+  border-radius: 9999px;
+  background: linear-gradient(to bottom, #d05bff, #bd17bd);
+}
+@layer utilities{
+  .no-spinner::-webkit-outer-spin-button,.no-spinner::-webkit-inner-spin-button{
+    @apply appearance-none;
+    margin:0;
+
+  }
+  .no-spinner{
+    @apply appearance-none
+  }
+}
+.loader {
+  border: 4px solid #f3f3f3; /* Light grey */
+  border-top: 4px solid black; /* Blue */
+  border-radius: 50%;
+  width: 50px;
+  animation: spin 1s linear infinite;
+  width: 50px;
+  height: 50px;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
