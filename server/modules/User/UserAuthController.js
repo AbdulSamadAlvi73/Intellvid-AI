@@ -122,36 +122,36 @@ module.exports.verifyAccount = async(req,res,next)=>{
   await user.save({validateBeforeSave:false})
 return res.status(200).json({message:"Email has been verified"})
 }
-module.exports.resendOtp = async(req,res,next)=>{
-  const {email} = req.user
-  if(!email){
-    return next({message:"Email is required to resend OTP",status:400})
+  module.exports.resendOtp = async(req,res,next)=>{
+    const {email} = req.user
+    if(!email){
+      return next({message:"Email is required to resend OTP",status:400})
+    }
+    const user  = await UserModel.findOne({email})
+    if(!user){
+      return next({message:"User is not found",status:400})
+    }
+    if(user.isVerified){
+      return next({message:"The Account is already verified",status:400})
+    }
+    const newotp= generateOtp()
+    user.otp = newotp
+    user.otpExpires = Date.now()+ 24 * 60 * 60 *1000
+    await user.save({validatedBeforeSave:false})
+    try {
+      await sendEmail({
+        email : user.email,
+        subject : "Resend otp for email verification",
+        html : `<h1>Your new Otp is ${newotp}</h1>`
+      })
+      res.status(200).json({message:"A new otp has sent to your email"})
+    } catch (error) {
+      user.otp = undefined
+      user.otpExpires = undefined
+      await user.save({validateBeforeSave:false})
+  return next({message:"There is an error in sending OTP.Please try again!",stauts:500})
+    }
   }
-  const user  = await UserModel.findOne({email})
-  if(!user){
-    return next({message:"User is not found",status:400})
-  }
-  if(user.isVerified){
-    return next({message:"The Account is already verified",status:400})
-  }
-  const newotp= generateOtp()
-  user.otp = newotp
-  user.otpExpires = Date.now()+ 24 * 60 * 60 *1000
-  await user.save({validatedBeforeSave:false})
-  try {
-    await sendEmail({
-      email : user.email,
-      subject : "Resend otp for email verification",
-      html : `<h1>Your new Otp is ${newotp}</h1>`
-    })
-    res.status(200).json({message:"A new otp has sent to your email"})
-  } catch (error) {
-    user.otp = undefined
-    user.otpExpires = undefined
-    await user.save({validateBeforeSave:false})
-return next({message:"There is an error in sending OTP.Please try again!",stauts:500})
-  }
-}
 module.exports.logout = (req,res,next)=>{
   res.cookie("token","Loggedout",{
     expires: new Date(Date.now()+10*1000),

@@ -6,7 +6,6 @@ const { UserModel } = require("../../models/UserModel");
 router.post("/create", userAuth, async (req, res, next) => {
   const { planId } = req.body;
   const { email } = req.user;
-  console.log(email);
 
   const user = await UserModel.findOne({ email });
 
@@ -18,7 +17,7 @@ router.post("/create", userAuth, async (req, res, next) => {
 
     if (subscriptions.data.length > 0) {
       const activeSubscription = subscriptions.data.find(
-        (sub) => sub.status === "active" || sub.status === "trial"
+        (sub) => sub.subscriptionStatus === "active"
       );
 
       if (activeSubscription) {
@@ -55,13 +54,13 @@ router.post("/create", userAuth, async (req, res, next) => {
     ],
     mode: "subscription",
     success_url: `http://localhost:5173/dashboard/payment/success?session_id={CHECKOUT_SESSION_ID}`, // Redirect after success
-    cancel_url: "http://localhost:3000/cancel", // Redirect after cancel
+    cancel_url: "http://localhost:5173/dasboard/text-to-script", // Redirect after cancel
     customer: customer.id,
   });
 
   res.json({ id: session.id });
 });
-router.get('/payment-details', async (req, res) => {
+router.get('/payment-details' ,async (req, res) => {
   try {
     const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
     res.json({
@@ -75,14 +74,15 @@ router.get('/payment-details', async (req, res) => {
   }
 });
 
-router.get("status", async (req, res) => {
-  const { stripeCustomerId } = req.query;
+router.get("/status",userAuth, async (req, res) => {
+const {email} = req.user 
 
-  const user = await UserModel.findOne({ stripeCustomerId });
+  const user = await UserModel.findOne({ email});
 
   if (!user) {
     return res.status(404).json({ error: "User not found" });
   }
+  const stripeCustomerId = user.stripeCustomerId;
 
   const subscriptions = await stripe.subscriptions.list({
     customer: stripeCustomerId,
@@ -93,6 +93,7 @@ router.get("status", async (req, res) => {
     (sub) => sub.status === "active" || sub.status === "trial"
   );
 
+  const cancelAt = activeSubscription?.cancel_at;
   res.json({
     subscriptionStatus: user.subscriptionStatus,
     subscriptionPlan: user.subscriptionPlan,
@@ -101,6 +102,63 @@ router.get("status", async (req, res) => {
     imageGenerationLimit: user.imageGenerationLimit,
     videoGenerationCount: user.videoGenerationCount,
     videoGenerationLimit: user.videoGenerationLimit,
+    facelessGenerationCount : user.facelessGenerationCount,
+    facelessGenerationLimit : user.facelessGenerationLimit,
+    scriptGenerationCount : user.scriptGenerationCount,
+    scriptGenerationLimit : user.scriptGenerationLimit,
+    cancelAt,
+monthlyResetDate : user.monthlyResetDate
   });
 });
+// Backend - Node.js (Express)
+router.post('/cancel-subscription',userAuth, async (req, res) => {
+  const { email } = req.user;
+const user = await UserModel.findOne({email})
+if(!user){
+  return res.status(400).json({ error: 'User not found' });
+}
+const  stripeCustomerId =user.stripeCustomerId
+  try {
+    // Find the user's Stripe subscription
+    const subscriptions = await stripe.subscriptions.list({
+      customer: stripeCustomerId,
+      status: 'active',
+    });
+
+    if (subscriptions.data.length === 0) {
+      return res.status(404).json({ error: 'No active subscription found' });
+    }
+
+    const subscriptionId = subscriptions.data[0].id;
+
+    // Cancel the subscription immediately or at the end of the current billing cycle
+    await stripe.subscriptions.update(subscriptionId, {
+      cancel_at_period_end: true, // Set to true to cancel at the end of the current period
+    });
+
+    const resetSubscriptionData = {
+      subscriptionStatus: 'inactive',
+      subscriptionPlan: null,
+      imageGenerationCount: 0,
+      imageGenerationLimit: 0,
+      videoGenerationCount: 0,
+      videoGenerationLimit: 0,
+      scriptGenerationCount: 0,
+      scriptGenerationLimit: 0,
+      facelessGenerationCount: 0,
+      facelessGenerationLimit: 0,
+    };
+    
+    await UserModel.findOneAndUpdate(
+      { stripeCustomerId },
+      resetSubscriptionData
+    );
+
+    res.status(200).json({ message: 'Subscription cancelled successfully' });
+  } catch (error) {
+    console.error('Error canceling subscription:', error);
+    res.status(500).json({ error: 'Failed to cancel subscription' });
+  }
+});
+
 module.exports = router;

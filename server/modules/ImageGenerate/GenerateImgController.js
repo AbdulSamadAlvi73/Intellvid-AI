@@ -29,7 +29,7 @@ if(user.subscriptionStatus==='active' && user.imageGenerationCount>=user.imageGe
 }
 if(user.subscriptionStatus==='inactive'){
   return next({message:"Your Susbcription is Over"})
-}  
+}
 
     let generation = await client.generations.image.create({prompt});
     while (generation.state !== "completed") {

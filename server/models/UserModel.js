@@ -63,7 +63,7 @@ imageGenerationCount: { type: Number, default: 0 }, // Track image generations
   facelessGenerationLimit: { type: Number, default: 0 }, // Default limit for trial users
   scriptGenerationCount: { type: Number, default: 0 }, // Track video generations
   scriptGenerationLimit: { type: Number, default: 0 }, // Default limit for trial users
-
+monthlyResetDate: { type: Date },
 },{timestamps:true});
 
 userSchema.methods.comparePassword = async function (password) {

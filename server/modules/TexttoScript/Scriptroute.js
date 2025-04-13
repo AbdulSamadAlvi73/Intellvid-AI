@@ -4,8 +4,9 @@ const {OpenAI} = require( "openai");
 const { UserModel } = require('../../models/UserModel');
 const ChatModel = require('../../models/Chatmodel');
 const { userAuth } = require('../../middleware/AuthMiddleware');
+const checkMonthlyLimit = require("../../middleware/monthly-check")
 const client = new OpenAI({apiKey:process.env.OPENAIKEY});
-router.post('/generate', userAuth, async (req, res, next) => {
+router.post('/generate', userAuth,checkMonthlyLimit('script'), async (req, res, next) => {
     const { script } = req.body;
     const { email } = req.user;
 
@@ -15,10 +16,10 @@ router.post('/generate', userAuth, async (req, res, next) => {
             return next({ message: "User not found", status: 400 });
         }
 
-        if(user.subscriptionStatus==='trial'){
+        if(user.subscriptionStatus==='trial'|| user.subscriptionStatus==='active' && user.scriptGenerationLimit===0){
             return next({message:"Please Subscribe to unlock this feature"})
           }
-          if(user.subscriptionStatus==='active' && user.facelessGenerationCount>=user.facelessGenerationLimit){
+          if(user.subscriptionStatus==='active' && user.scriptGenerationCount>=user.scriptGenerationLimit){
             return next({message:"You have reached Your Credits"})
           }
           if(user.subscriptionStatus==='inactive'){
@@ -36,9 +37,7 @@ router.post('/generate', userAuth, async (req, res, next) => {
         });
 
         const result = completion.choices[0].message.content;
-        console.log("The Result is:", result);
-
-        const chat = await ChatModel.findOneAndUpdate(
+              const chat = await ChatModel.findOneAndUpdate(
             { user: user._id },  // Find chat by user ID reference
             { $push: { chats: result } },  // Push the new chat into the "chats" array
             { new: true, upsert: true }  // Create a new document if not found

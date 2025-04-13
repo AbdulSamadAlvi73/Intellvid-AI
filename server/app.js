@@ -27,17 +27,10 @@ app.post('/stripe-webhook', express.raw({ type: 'application/json' }), async (re
   const sig = req.headers['stripe-signature'];
   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-  console.log('Raw request body:', req.body ? req.body.toString() : 'No raw body received');
-  console.log('Headers:', req.headers);
-
   let event;
 
   try {
-    event = stripe.webhooks.constructEvent(
-      Buffer.from(req.body),
-      sig,
-      endpointSecret
-    );
+    event = stripe.webhooks.constructEvent(Buffer.from(req.body), sig, endpointSecret);
   } catch (err) {
     console.error('Webhook signature verification failed:', err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
@@ -46,7 +39,6 @@ app.post('/stripe-webhook', express.raw({ type: 'application/json' }), async (re
   switch (event.type) {
     case 'checkout.session.completed':
       console.log('✅ Checkout session completed');
-
       const session = event.data.object;
 
       if (session.mode === 'subscription') {
@@ -54,82 +46,135 @@ app.post('/stripe-webhook', express.raw({ type: 'application/json' }), async (re
         const stripeCustomerId = session.customer;
 
         try {
-         
+          const now = Date.now();
+          const secondsInMonth = 30 * 24 * 60 * 60;
+          const secondsInYear = 365 * 24 * 60 * 60;
+
+          let cancelAt;
+          let resetIn = null;
+          let plan;
+          let imageGenerationLimit = 0;
+          let videoGenerationLimit = 0;
+          let facelessGenerationLimit = 0;
+          let scriptGenerationLimit = 0;
+
           const subscription = await stripe.subscriptions.retrieve(subscriptionId);
-          await stripe.subscriptions.update(subscriptionId, {
-            cancel_at: Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60, // 30 days from now
+          const planId = subscription.items.data[0].price.id;
 
-          }); 
-          const planId = subscription.items.data[0].price.id; // Get plan ID
-
-          let imageGenerationLimit, videoGenerationLimit , facelessGenerationLimit , scriptGenerationLimit;
           switch (planId) {
             case process.env.STARTER_PLAN:
+              plan = "Starter";
+              cancelAt = Math.floor(now / 1000) + secondsInMonth;
               imageGenerationLimit = 10;
               videoGenerationLimit = 3;
-              scriptGenerationLimit = 3
-
+              scriptGenerationLimit = 3;
               break;
+
             case process.env.PRO_PLAN:
+              plan = "Pro";
+              cancelAt = Math.floor(now / 1000) + secondsInMonth;
               imageGenerationLimit = 50;
               videoGenerationLimit = 10;
-              facelessGenerationLimit = 5
-              scriptGenerationLimit = 10
+              facelessGenerationLimit = 5;
+              scriptGenerationLimit = 10;
               break;
+
             case process.env.ENTERPRISE_PLAN:
+              plan = "Enterprise";
+              cancelAt = Math.floor(now / 1000) + secondsInMonth;
               imageGenerationLimit = 100;
               videoGenerationLimit = 20;
-              facelessGenerationLimit = 20
-              scriptGenerationLimit = 20
+              facelessGenerationLimit = 20;
+              scriptGenerationLimit = 20;
               break;
+
+            case process.env.STARTER_PLAN_YEARLY:
+              plan = "Starter Yearly";
+              cancelAt = Math.floor(now / 1000) + secondsInYear;
+              resetIn = new Date(now + secondsInMonth * 1000);
+              imageGenerationLimit = 10;
+              videoGenerationLimit = 3;
+              scriptGenerationLimit = 3;
+              break;
+
+            case process.env.PRO_PLAN_YEARLY:
+              plan = "Pro Yearly";
+              cancelAt = Math.floor(now / 1000) + secondsInYear;
+              resetIn = new Date(now + secondsInMonth * 1000);
+              imageGenerationLimit = 50;
+              videoGenerationLimit = 10;
+              facelessGenerationLimit = 5;
+              scriptGenerationLimit = 10;
+              break;
+
+            case process.env.ENTERPRISE_PLAN_YEARLY:
+              plan = "Enterprise Yearly";
+              cancelAt = Math.floor(now / 1000) + secondsInYear;
+              resetIn = new Date(now + secondsInMonth * 1000);
+              imageGenerationLimit = 100;
+              videoGenerationLimit = 20;
+              facelessGenerationLimit = 20;
+              scriptGenerationLimit = 20;
+              break;
+
             default:
+              plan = "trail";
+              cancelAt = Math.floor(now / 1000) + secondsInMonth;
               imageGenerationLimit = 3;
               videoGenerationLimit = 1;
-              facelessGenerationLimit = 0
-              scriptGenerationLimit = 0
+              facelessGenerationLimit = 0;
+              scriptGenerationLimit = 0;
           }
 
-          // Update user subscription details in MongoDB
+          await stripe.subscriptions.update(subscriptionId, {
+            cancel_at: cancelAt,
+          });
+
           await UserModel.findOneAndUpdate(
             { stripeCustomerId },
             {
               subscriptionStatus: 'active',
-              subscriptionPlan: planId,
+              subscriptionPlan: plan,
               imageGenerationLimit,
               videoGenerationLimit,
               facelessGenerationLimit,
               scriptGenerationLimit,
               imageGenerationCount: 0,
               videoGenerationCount: 0,
-              facelessGenerationLimit : 0,
-              scriptGenerationLimit : 0
+              facelessGenerationCount: 0,
+              scriptGenerationCount: 0,
+              monthlyResetDate: resetIn||null,
             }
           );
 
-          console.log(`✅ User subscription updated successfully for ${stripeCustomerId}`);
+          console.log(`✅ User subscription updated for ${stripeCustomerId}`);
         } catch (error) {
-          console.error(`❌ Failed to retrieve subscription: ${error.message}`);
+          console.error(`❌ Subscription update error: ${error.message}`);
         }
       }
       break;
 
     case 'customer.subscription.deleted':
-      console.log('Subscription deleted');
-
+      console.log('❌ Subscription deleted');
       const deletedSubscription = event.data.object;
       const deletedCustomerId = deletedSubscription.customer;
 
-      // Correct update syntax
       await UserModel.findOneAndUpdate(
         { stripeCustomerId: deletedCustomerId },
         {
           subscriptionStatus: 'inactive',
+          subscriptionPlan: null,
           imageGenerationLimit: 0,
           videoGenerationLimit: 0,
-          subscriptionPlan: null,
+          facelessGenerationLimit: 0,
+          scriptGenerationLimit: 0,
+          imageGenerationCount: 0,
+          videoGenerationCount: 0,
+          facelessGenerationCount: 0,
+          scriptGenerationCount: 0,
+          monthlyResetDate: null,
         }
       );
-
       break;
 
     default:
@@ -138,6 +183,7 @@ app.post('/stripe-webhook', express.raw({ type: 'application/json' }), async (re
 
   res.json({ received: true });
 });
+
 
 
   app.use(express.urlencoded({ extended: true }));

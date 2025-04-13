@@ -8,16 +8,16 @@ const { UserModel } = require("../../models/UserModel");
 module.exports.facelessvideo = async (req, res, next) => {
   try {
     const { script } = req.body;
-    console.log(script);
+    // console.log(script);
     
     const {email} = req.user
     const user  = await UserModel.findOne({email})
-    console.log(user)
+    // console.log(user)
 if(!user){
   return next({message:"User not found"})
 }
 
-    if(user.subscriptionStatus==='trial'){
+    if(user.subscriptionStatus==='trial'||user.subscriptionStatus==='active' && user.facelessGenerationCount>=user.facelessGenerationLimit){
       return next({message:"Please Subscribe to unlock this feature"})
     }
     if(user.subscriptionStatus==='active' && user.facelessGenerationCount>=user.facelessGenerationLimit){
@@ -37,7 +37,7 @@ if(!user){
   
     const videoUrl = await animationservice(imageUrl, voiceBuffer);
 
-    console.log("Final Video URL:", videoUrl);
+    // console.log("Final Video URL:", videoUrl);
     if (!videoUrl || typeof videoUrl !== "string") {
       throw new Error("Malformed URL: Invalid video URL");
     }
@@ -68,7 +68,7 @@ if(!user){
     ])
     .save(outputPath) // Save Output File
     .on("end", () => {
-      console.log("Faceless video generation complete.");
+      // console.log("Faceless video generation complete.");
       res.sendFile(outputPath); // Send final video
     })
     .on("error", (err) => {
@@ -84,7 +84,6 @@ if(!user){
     return next({ message: "Failed to generate faceless video", status: 400 });
   }
 };
-// ✅ Helper Function to Convert Stream to Buffer
 const streamToBuffer = async (stream) => {
   return new Promise((resolve, reject) => {
     const chunks = [];
